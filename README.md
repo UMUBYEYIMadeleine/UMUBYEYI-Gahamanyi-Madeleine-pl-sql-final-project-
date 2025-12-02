@@ -521,6 +521,98 @@ ALL tables are in 1NF no one group is repeating
 | Slowly Changing Dimensions | USERS, COUNSELORS profiles tracked via Type 2 SCD to maintain historical changes                                               |
 | Aggregation Levels         | Daily, weekly, monthly user activity for reporting and analytics                                                               |
 | Audit Trails               | Include created_at and updated_at timestamps for all tables                                                                    |
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                 MENTAL HEALTH PLATFORM - ENTITY RELATIONSHIP DIAGRAM        │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+                              ┌──────────────────────┐
+                              │      EXERCISES       │
+                              ├──────────────────────┤
+                              │PK: exercise_id       │
+                              │   title              │
+                              │   description        │
+                              │   duration_minutes   │
+                              │   category           │
+                              └──────────┬───────────┘
+                                         │
+                                         │ (1) ──── (M)
+                                         ▼
+     ┌──────────────────────────────────────────────────────────────────────┐
+     │                   USER_EXERCISE_PROGRESS                             │
+     ├──────────────────────────────────────────────────────────────────────┤
+     │PK: progress_id                                                       │
+     │FK: user_id → USERS              │                                    │
+     │FK: exercise_id → EXERCISES      │ (M) ──── (1)                      │
+     │   start_time                    │                                    │
+     │   completion_time               └─────────────────────────────────────┘
+     │   duration_seconds                                                     │
+     └──────────────────────────────────────────────────────────────────────┘
+                                        │
+                                        │ (M) ──── (1)
+                                        ▼
+      ┌─────────────────────────────────────────────────────────────────────┐
+      │                           USERS                                     │
+      ├─────────────────────────────────────────────────────────────────────┤
+      │PK: user_id                                                          │
+      │UK: email                                                            │
+      │   full_name                    │                                    │
+      │   password_hash                │                                    │
+      │   phone_number                 │                                    │
+      │   date_of_birth                │                                    │
+      │   gender                       │                                    │
+      │   status                       │                                    │
+      │   language_preference          │                                    │
+      └─────────────────┬──────────────┬──────────────┬──────────────┬──────┘
+         (1) ──── (M)   │  (1) ──── (M)│ (1) ──── (M) │ (1) ──── (M) │ (1) ──── (M)
+         │              │              │              │              │
+         ▼              ▼              ▼              ▼              ▼
+┌──────────────┐┌──────────────┐┌──────────────┐┌──────────────┐┌──────────────┐
+│SELF_ASSESS-  ││   MESSAGES   ││ APPOINTMENTS ││CRISIS_EVENTS ││EMERGENCY     │
+│  MENTS       │├──────────────┤├──────────────┤├──────────────┤│CONTACTS      │
+├──────────────┤│PK: message_id││PK:appointment││PK: crisis_id │├──────────────┤
+│PK:assessment_││FK: user_id   ││   _id        ││FK: user_id   ││PK: contact_id│
+│   id         ││FK:counselor_ ││FK: user_id   ││FK:counselor_ ││FK: user_id   │
+│FK: user_id   ││   id         ││FK:counselor_ ││   id         ││   contact_   │
+│   assessment ││   message_   ││   id         ││   crisis_    ││   name       │
+│   _date      ││   text       ││   appoint-   ││   type       ││   contact_   │
+│   assessment ││   message_   ││   ment_date  ││              ││   number     │
+│   _type      ││   type       ││   appoint-   ││              ││   contact_   │
+│   score      ││   session_id ││   ment_type  ││              ││   email      │
+└──────────────┘└──────┬───────┘└──────┬───────┘└──────┬───────┘└──────────────┘
+                       │               │               │
+                       │ (M) ──── (1)  │ (M) ──── (1)  │ (M) ──── (1)
+                       │               │               │
+                       ▼               ▼               ▼
+              ┌─────────────────────────────────────────────────────┐
+              │                  COUNSELORS                         │
+              ├─────────────────────────────────────────────────────┤
+              │PK: counselor_id                                     │
+              │UK: email                                            │
+              │   counselor_name                                    │
+              │   contact_number                                    │
+              │   specialization                                    │
+              │   qualifications                                    │
+              │   working_hours                                     │
+              └─────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                             INDEPENDENT TABLES                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+      ┌─────────────────────────────────────────────────────────────────────┐
+      │                         RESOURCES                                   │
+      ├─────────────────────────────────────────────────────────────────────┤
+      │PK: resource_id                                                      │
+      │   title                                                             │
+      │   description                                                       │
+      │   content_type                                                      │
+      │   category                                                          │
+      │   language                                                          │
+      │   publication_date                                                  │
+      │   author                                                            │
+      │   publisher                                                         │
+      └─────────────────────────────────────────────────────────────────────┘
   
     
     
