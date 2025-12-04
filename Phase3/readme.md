@@ -149,6 +149,21 @@ EXERCISES (1) ---- (M) USER_EXERCISE_PROGRESS
 | status              | VARCHAR2(20)  | Account status (Active, Disabled, etc.) | Optional         |
 | language_preference | VARCHAR2(20)  | Preferred language                      | Optional         |
 
+### Data Dictionary
+
+## 1.user table
+
+| Column Name         | Data Type     | Description                             | Constraints      |
+| ------------------- | ------------- | --------------------------------------- | ---------------- |
+| user_id             | NUMBER(10)    | Unique ID for each user                 | Primary Key      |
+| full_name           | VARCHAR2(100) | Full name of the user                   | NOT NULL         |
+| email               | VARCHAR2(100) | User’s email                            | UNIQUE, NOT NULL |
+| password_hash       | VARCHAR2(255) | Encrypted password                      | NOT NULL         |
+| phone_number        | VARCHAR2(20)  | User’s phone number                     | Optional         |
+| date_of_birth       | DATE          | User’s date of birth                    | Optional         |
+| gender              | VARCHAR2(20)  | Gender description                      | Optional         |
+| status              | VARCHAR2(20)  | Account status (Active, Disabled, etc.) | Optional         |
+| language_preference | VARCHAR2(20)  | Preferred language                      | Optional         |
 
 
 
