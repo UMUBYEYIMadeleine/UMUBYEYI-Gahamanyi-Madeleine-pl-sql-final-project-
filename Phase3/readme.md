@@ -118,7 +118,7 @@ appointment_type - VARCHAR2(20));
 
 
 
-Cardinalities:
+## Cardinalities:
 
 USERS (1) ---- (M) SELF_ASSESSMENTS
 
