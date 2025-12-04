@@ -229,19 +229,47 @@ EXERCISES (1) ---- (M) USER_EXERCISE_PROGRESS
 | appointment_date | DATE         | Scheduled date         | Optional                               |
 | appointment_type | VARCHAR2(20) | Type (online/physical) | Optional                               |
 
-### Normalization
-## 1. First Normal Form (1NF) – Eliminate Repeating Groups
-ALL tables are in 1NF no one group is repeating
-## 2. second normal form (2NF)-Eliminate Partial Dependencies
- All tables are in 2NF 
-## 3.Third Normal Form (3NF) – Eliminate Transitive Dependencies
-  All table are in 3NF
+### 3. Normalization (1NF → 2NF → 3NF)
+# ✔ 1NF (Eliminate repeating groups)
+
+.Each table has atomic values (no multi-valued attributes).
+
+.No repeated columns.
+
+.All tables have primary keys.
+
+# ✔ 2NF (Eliminate partial dependencies)
+
+.No composite primary keys → therefore no partial dependency.
+
+.All non-key attributes depend fully on the PK.
+
+# ✔ 3NF (Eliminate transitive dependencies)
+
+.No field depends on another non-key attribute.
+
+.Contact numbers, status, category etc. all depend only on their PK.
+
+.Relationships handled with foreign keys.
   ## Justification of Normalization Approach
-  1. Reduces data redundancy: Information is stored only once, e.g., user data in USERS table.
-2. Ensures data integrity: Foreign keys maintain consistent relationships.
+ 1. Reduces data redundancy: Information is stored only once, e.g., user data in USERS table.
+ 2. Ensures data integrity: Foreign keys maintain consistent relationships.
  3. Supports scalability: Adding new users, exercises, messages, or appointments does not require table restructuring.
-  4. Improves query efficiency: Structured tables simplify joins and reporting.
-  5. Supports BI and analytics: Normalized tables enable accurate aggregations and data analysis.
+ 4. Improves query efficiency: Structured tables simplify joins and reporting.
+ 5. Supports BI and analytics: Normalized tables enable accurate aggregations and data analysis.
+ ###  Assumptions
+
+.One user can have many appointments and assessments.
+
+.A counselor handles many users.
+
+.Resources are freely accessible to all users.
+
+.A message always belongs to both a user and a counselor.
+
+.Appointment types include: Chat, Call, Video, Physical.
+
+.Password is stored encrypted in real implement
 
   | Aspect                     | Consideration                                                                                                                  |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
@@ -249,4 +277,3 @@ ALL tables are in 1NF no one group is repeating
 | Slowly Changing Dimensions | USERS, COUNSELORS profiles tracked via Type 2 SCD to maintain historical changes                                               |
 | Aggregation Levels         | Daily, weekly, monthly user activity for reporting and analytics                                                               |
 | Audit Trails               | Include created_at and updated_at timestamps for all tables                                                                    |
-
